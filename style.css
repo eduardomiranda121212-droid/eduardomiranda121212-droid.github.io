@@ -1,23 +1,25 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #fff0f5;
-    color: #333;
-    text-align: center;
-  }
-  
-  header {
-    background: #ff528c;
-    color: white;
-    padding: 2rem;
-  }
-  
-  h1 {
-    margin: 0;
-    font-size: 2.5rem;
-  }
-  nav ul {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #fff0f5;
+  color: #333;
+  text-align: center;
+}
+
+header {
+  background: #ff6699;
+  color: white;
+  padding: 2rem 1rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+/* --- NAV --- */
+nav ul {
   list-style: none;
   padding: 0;
   margin: 1rem 0 0 0;
@@ -28,45 +30,45 @@ body {
 
 nav ul li a {
   text-decoration: none;
-  color: rgb(255, 255, 255);
+  color: white;
   font-weight: bold;
   transition: color 0.3s;
 }
 
 nav ul li a:hover {
-  color: #ff6fa9;
+  color: #ffe6f0;
 }
-  
-  .galeria {
-    padding: 1rem;
-  }
-  
-  .imagenes {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  
-  .imagenes img {
-    width: 300px;
-    border-radius: 35px;
-    box-shadow: 0 10px 20px rgba(255, 0, 140, 0.2);
-    transition: transform 0.3s;
-  }
-  
-  .imagenes img:hover {
-    transform: scale(1.05);
-  }
-  
-  .sobre {
-    padding: 2rem;
-    background: #ffe6f0;
-  }
-  
-  footer {
-    background: #ff6699;
-    color: white;
-    padding: 1rem;
-  }
+
+/* --- SECCIONES --- */
+.sobre {
+  padding: 2rem;
+  background: #ffe6f0;
+  margin: 1rem 0;
+}
+
+.cuadro-blanco {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin: 1rem auto;
+  max-width: 800px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-align: left;
+}
+
+.cuadro-blanco p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* --- FOOTER --- */
+footer {
+  background: #ff6699;
+  color: white;
+  padding: 1rem;
+}
+html {
+  scroll-behavior: smooth;
+}
+
   
