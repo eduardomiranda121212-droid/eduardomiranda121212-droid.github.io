@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestro Aniversario</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ESTILOS CSS --- */
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 5rem;
+            margin: 0;
+            letter-spacing: 3px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            animation: fadeInTitle 1.5s ease-out forwards;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-top: -10px;
+            opacity: 0;
+            animation: fadeInTitle 1.5s ease-out 0.5s forwards;
+        }
+
+        /* --- Contenedor y Animación del Corazón (CORREGIDO) --- */
+        .heart-container {
+            position: relative;
+            width: 200px;
+            height: 180px;
+            margin: 40px auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .heart-container:hover {
+            transform: scale(1.05);
+        }
+
+        .heart-piece {
+            position: absolute;
+            width: 100px;
+            height: 160px;
+            background-color: #e94d6a;
+            top: 0;
+            /* La transición ahora anima la posición (left/right) */
+            transition: left 1s cubic-bezier(0.4, 0, 0.2, 1), right 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .heart-piece.left {
+            border-radius: 100px 100px 0 0;
+            /* Posición inicial: separada a la izquierda */
+            left: -60px;
+            transform: rotate(-45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .heart-piece.right {
+            border-radius: 100px 100px 0 0;
+            /* Posición inicial: separada a la derecha */
+            right: -60px;
+            transform: rotate(45deg);
+            transform-origin: 0% 100%;
+        }
+
+        /* Estado cuando el corazón está unido (la clase se añade con JS) */
+        .heart-container.completed .heart-piece.left {
+            /* Posición final: unida en el centro */
+            left: 50px;
+        }
+
+        .heart-container.completed .heart-piece.right {
+            /* Posición final: unida en el centro */
+            right: 90px;
+        }
+        
+        /* Efecto de latido después de unirse */
+        .heart-container.completed {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.1); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.1); }
+            70% { transform: scale(1); }
+        }
+
+        /* --- Contenido Oculto (Mensaje y Fotos) --- */
+        .hidden-content {
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+
+        .heart-container.completed ~ .hidden-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: left;
+        }
+
+        .message-box h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-top: 0;
+        }
+
+        .message-box p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .signature {
+            text-align: right !important;
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .photo-gallery img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, filter 0.3s ease;
+            filter: grayscale(30%);
+        }
+
+        .photo-gallery img:hover {
+            transform: scale(1.05) rotate(2deg);
+            filter: grayscale(0%);
+        }
+        
+        .hint {
+            font-size: 1rem;
+            opacity: 0.8;
+            transition: opacity 0.5s;
+        }
+
+        .heart-container.completed ~ .hint {
+            opacity: 0;
+        }
+
+        @keyframes fadeInTitle {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive para móviles (CORREGIDO) */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            .heart-container {
+                width: 150px;
+                height: 135px;
+            }
+            .heart-piece {
+                width: 75px;
+                height: 120px;
+            }
+            /* Ajustamos la posición final para móviles */
+            .heart-container.completed .heart-piece.left {
+                left: 37.5px; /* (150/2) - (75/2) */
+            }
+            .heart-container.completed .heart-piece.right {
+                right: 37.5px; /* (150/2) - (75/2) */
+            }
+            .message-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Feliz Aniversario Amor</h1>
+        <p class="subtitle">Un pedazo de mi corazón para ti</p>
+
+        <!-- CORAZÓN INTERACTIVO -->
+        <div class="heart-container" id="heart">
+            <div class="heart-piece left"></div>
+            <div class="heart-piece right"></div>
+        </div>
+
+        <p class="hint">(Haz clic para unir nuestros corazones)</p>
+
+        <!-- CONTENIDO OCULTO QUE APARECERÁ -->
+        <div class="hidden-content">
+            <div class="message-box">
+                <h2>Mi Amor,</h2>
+                <p>
+                    <!-- AQUÍ VA TU MENSAJE -->
+                    Hola mi amor primero que todo feliz aniversario, ya 5 grandes meses desde que nos cruzamos en el camino por ese taller de PA, suseth o como mas me gusta llamarte mi negra, desde esa exposicion de brasil quede completamente enamorado de ti,esa linda sensacion de sentir amor a primera vista fue muy magico, tu modo tu tono y sobre todo tu risa me enamoraron al instante, si me quitastes el trifolio pero por algo fue, por algo la vida nos cruzo en esa ocasion, es cierto pasaron meses y ninguno de los dos supo de la existencia del otro, pero ese taller de PA fue lo que nos unio, gracias hilary por todo lo que haces por mi, eres demasiado linda, demasiado hermosa y muy especial conmigo, gracias por tambien querer un futuro juntos, se que no soy el mejor hombre se que tengo defectos y tambien errores, pero sabes que amor? Gracias a ti mejoro cada dia, gracias a ti me he superado cada dia y cada dia me enamoro mas de ti, estoy mil veces agradecido por todo lo que has echo y lo que has aguantado por mi, mi amor tu eres todo lo que necesito, todo lo que amo y todo mi entorno,quiero una vida plena contigo,tener nuetros hijos tener a calseto e ir a comprar calcetines exoticos a la paca,tu eres mi sol en el amanecer y mi luna al anochecer gracias por lo maravillosa que eres, nunca te recuerdo pero porque nunca te olvido, envidio a las personas que pasan junto contigo, me alegra tener alguien tan especial que hace doler despedirmer, quiero unirme en un solor ser contigo, quiero que al amanecer verte dormida en nuestra cama, acariciarte y besarte, te amo y te amare hasta el ultimo latido hasta el ultimo suspiro y si puedo amarte desde el mas alla lo hare mi amor, te protegere siempre y te cuidare (porque eres mi penosa) te amo mucho amor y Feliz Aniversario gracias por ser parte de mi vida!
+                </p>
+                <p class="signature">Con todo mi corazón, Eduardo</p>
+            </div>
+
+            <div class="photo-gallery">
+                <!-- REEMPLAZA 'foto1.jpg', 'foto2.jpg', etc. CON LOS NOMBRES DE TUS FOTOS -->
+                <img src="WhatsApp Image 2025-12-10 at 7.18.44 PM.jpeg" alt="Nuestra foto 1">
+                <img src="WhatsApp Image 2025-12-10 at 7.18.45 PM (1).jpeg" alt="Nuestra foto 2">
+                <img src="WhatsApp Image 2025-12-10 at 7.18.45 PM (2).jpeg" alt="Nuestra foto 3">
+                <img src="WhatsApp Image 2025-12-10 at 7.18.45 PM (3).jpeg" alt="Nuestra foto 4">
+                <img src="WhatsApp Image 2025-12-10 at 7.28.37 PM (1).jpeg" alt="Nuestra foto 5">
+                <img src="WhatsApp Image 2025-12-10 at 7.18.45 PM.jpeg" alt="Nuestra foto 6">
+                <img src="WhatsApp Image 2025-12-10 at 7.18.45 PM (4).jpeg" alt="Nuestra foto 7">
+                <img src="WhatsApp Image 2025-12-10 at 7.28.37 PM (2).jpeg" alt="Nuestra foto 8">
+                <img src="WhatsApp Image 2025-12-10 at 7.28.37 PM (3).jpeg" alt="Nuestra foto 9">
+            </div>
+        </div>
+    </div>
+
+    <!-- --- CÓDIGO JAVASCRIPT (Sin cambios) --- -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const heart = document.getElementById('heart');
+
+            // Añadimos el evento de clic al corazón
+            heart.addEventListener('click', () => {
+                // Añadimos la clase 'completed' para activar las animaciones
+                heart.classList.add('completed');
+            });
+        });
+    </script>
+
+</body>
+</html>
